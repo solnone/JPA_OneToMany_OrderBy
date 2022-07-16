@@ -1,5 +1,7 @@
 package com.java2s.common;
 
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -8,23 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonDaoImpl {
   public void test(){
-    Department d = new Department();
-    d.setName("Design");
-
-    Person p1 = new Person("Tom");
-    p1.setDepartment(d);
-
-    Person p2 = new Person("Jack");
-    p2.setDepartment(d);
-    
-    d.getPersons().add(p1);
-    d.getPersons().add(p2);
-    
-    em.persist(p1);
-    em.persist(p2);
+    Department d = new Department("Design");
+    Set<Person> persons = d.getPersons();
+    persons.add(new Person("Tom", d));
+    persons.add(new Person("Jack", d));
     em.persist(d);
-
   }
+  
 	@PersistenceContext
 	private EntityManager em;
 }
